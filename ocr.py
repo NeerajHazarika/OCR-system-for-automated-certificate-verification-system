@@ -23,8 +23,14 @@ def normalize_image(image_path):
     # M = cv2.getRotationMatrix2D((image.shape[1] / 2, image.shape[0] / 2), angle, 1)
     # image = cv2.warpAffine(image, M, (image.shape[1], image.shape[0]), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
 
-    normalized_image_path = "preprocessed/normalized_" + os.path.basename(image_path)
+    if not os.path.exists('preprocessed'):
+      os.makedirs('preprocessed')
+
+    normalized_image_path = "preprocessed/" + os.path.basename(image_path) + "normalize"
     cv2.imwrite(normalized_image_path, image)
+
+    if not cv2.imwrite(normalized_image_path, image):
+      raise Exception("Could not write image")
 
     return normalized_image_path
 
@@ -38,6 +44,10 @@ def doctr_ocr(path, name):
     result = model(doc)
     # result.show(doc)
     json_response = result.export()
+
+    if not os.path.exists('outputs'):
+      os.makedirs('outputs')
+    
     file_path = "outputs/" + name + ".txt"
     with open(file_path, "w") as file:
         pass
