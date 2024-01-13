@@ -26,7 +26,7 @@ def normalize_image(image_path):
     if not os.path.exists('preprocessed'):
       os.makedirs('preprocessed')
 
-    normalized_image_path = "preprocessed/" + os.path.basename(image_path) + "normalize"
+    normalized_image_path = "preprocessed/normalized_" + os.path.basename(image_path)
     cv2.imwrite(normalized_image_path, image)
 
     if not cv2.imwrite(normalized_image_path, image):
